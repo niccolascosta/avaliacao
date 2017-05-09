@@ -1,7 +1,6 @@
 package br.com.aurum.astrea.dao;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -63,7 +62,7 @@ public class ContactDaoTest {
 		this.saveContact();
 		this.saveContact();
 		List<Contact> contacts = this.dao.list();
-		Assert.assertTrue("Deveria conter pelo menos dois contatos", Objects.nonNull(contacts) && contacts.size() >= 2);
+		Assert.assertTrue("Deveria conter pelo menos dois contatos", contacts != null && contacts.size() >= 2);
 	}
 
 	@Test
@@ -76,7 +75,7 @@ public class ContactDaoTest {
 		ContactFilter contactFilter = new ContactFilter();
 		contactFilter.setName("Niccolas");
 		List<Contact> contacts = this.dao.listByFilter(contactFilter);
-		Assert.assertTrue("Deveria conter um contato", Objects.nonNull(contacts) && contacts.size() >= 1);
+		Assert.assertTrue("Deveria conter um contato", contacts != null && contacts.size() >= 1);
 	}
 
 	@Test
@@ -89,7 +88,7 @@ public class ContactDaoTest {
 		ContactFilter contactFilter = new ContactFilter();
 		contactFilter.setCpf(contact.getCpf());
 		List<Contact> contacts = this.dao.listByFilter(contactFilter);
-		Assert.assertTrue("Deveria conter um contato", Objects.nonNull(contacts) && contacts.size() >= 1);
+		Assert.assertTrue("Deveria conter um contato", contacts != null && contacts.size() >= 1);
 	}
 
 	@Test
@@ -103,7 +102,7 @@ public class ContactDaoTest {
 		ContactFilter contactFilter = new ContactFilter();
 		contactFilter.setEmail("niccolas.costa@gmail.com");
 		List<Contact> contacts = this.dao.listByFilter(contactFilter);
-		Assert.assertTrue("Deveria conter um contato", Objects.nonNull(contacts) && contacts.size() >= 1);
+		Assert.assertTrue("Deveria conter um contato", contacts != null && contacts.size() >= 1);
 	}
 
 	@Test

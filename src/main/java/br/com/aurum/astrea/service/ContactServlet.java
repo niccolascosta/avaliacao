@@ -2,7 +2,6 @@ package br.com.aurum.astrea.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +15,9 @@ import br.com.aurum.astrea.domain.Contact;
 import br.com.aurum.astrea.filter.ContactFilter;
 import br.com.aurum.astrea.util.JsonParse;
 
-@SuppressWarnings("serial")
 public class ContactServlet extends HttpServlet {
 
+	private static final long serialVersionUID = -889510107250504038L;
 	public static final String ID = "id";
 	public static final String EMAIL_FILTER = "email";
 	public static final String CPF_FILTER = "cpf";
@@ -35,11 +34,11 @@ public class ContactServlet extends HttpServlet {
 
 		String json = IOUtils.toString(req.getInputStream());
 		Contact contact = (Contact) JsonParse.convertJsonToObject(json, Contact.class);
-		if (Objects.isNull(contact)) {
+		if (contact == null) {
 			return;
 		}
 		Long idContact = ContactServlet.DAO.save(contact);
-		if (Objects.isNull(contact.getId())) {
+		if (contact == null) {
 			contact.setId(idContact);
 		}
 		this.setResponseData(resp, contact);
@@ -47,6 +46,7 @@ public class ContactServlet extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		System.out.println(req.getParameterMap());
 		this.setResponseData(resp, this.executeAction(req));
 	}
 

@@ -7,12 +7,16 @@ contactService = function($http) {
 		return $http.post(url, contact);
 	}
 	
-	this.getContact = function(idContact){
-		return $http.get(url,{params: {action:'get',id:idContact}});
+	this.getContact = function(contactId){
+		return $http.get(url,{params: {action:'get',id:contactId}});
 	}
 	
 	this.listContact = function(contactFilter){
 		return $http.get(url, {params: {action:'list',name:contactFilter.name, email:contactFilter.email, cpf:contactFilter.cpf}});
+	}
+	
+	this.deleteContact = function(contactId){
+		return $http.delete(url, {params: {id:contactId}});
 	}
 };
 

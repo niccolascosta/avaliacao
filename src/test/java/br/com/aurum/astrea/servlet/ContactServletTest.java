@@ -8,7 +8,6 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -59,16 +58,13 @@ public class ContactServletTest extends Mockito {
 	public void saveContactServletTest() throws ServletException, IOException {
 		StringWriter out = this.createContactPost();
 		Contact contact = (Contact) JsonParse.convertJsonToObject(out.toString(), Contact.class);
-		Assert.assertTrue("Deveria ter cadastrado o contato",
-				Objects.nonNull(contact) && Objects.nonNull(contact.getId()));
+		Assert.assertTrue("Deveria ter cadastrado o contato", contact != null && contact.getId() != null);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void listContactServletTest() throws Exception {
 		this.createContactPost();
-		this.request = Mockito.mock(HttpServletRequest.class);
-		this.response = Mockito.mock(HttpServletResponse.class);
 		Mockito.when(this.request.getParameter(ContactServlet.ACTION)).thenReturn(ContactServlet.ACTION_LISTAGEM);
 		StringWriter out = new StringWriter();
 		Mockito.when(this.response.getWriter()).thenReturn(new PrintWriter(out, true));
@@ -77,23 +73,38 @@ public class ContactServletTest extends Mockito {
 		Type type = new TypeToken<ArrayList<Contact>>() {
 		}.getType();
 		List<Contact> contacts = (ArrayList<Contact>) JsonParse.convertJsonToObject(out.toString(), type);
-		Assert.assertTrue("Deveria conter um contato", Objects.nonNull(contacts) && contacts.size() >= 1);
+		Assert.assertTrue("Deveria conter um contato", contacts != null && contacts.size() >= 1);
 	}
 
 	@Test
 	public void getContactServletTest() throws Exception {
 		StringWriter out = this.createContactPost();
 		Contact contact = (Contact) JsonParse.convertJsonToObject(out.toString(), Contact.class);
-		this.request = Mockito.mock(HttpServletRequest.class);
-		this.response = Mockito.mock(HttpServletResponse.class);
+		Contact contactGet = this.executeGetContact(contact.getId());
+		Assert.assertTrue("Deveria ter retornado um contato", contactGet != null);
+	}
+
+	@Test
+	public void deleteContactServletTest() throws Exception {
+		StringWriter out = this.createContactPost();
+		Contact contact = (Contact) JsonParse.convertJsonToObject(out.toString(), Contact.class);
+		Long contactId = contact.getId();
+		Mockito.when(this.request.getParameter(ContactServlet.ID)).thenReturn(contactId.toString());
+		ContactServlet contactServlet = new ContactServlet();
+		contactServlet.doDelete(this.request, this.response);
+		contact = this.executeGetContact(contactId);
+		Assert.assertTrue("Deveria ter apagado o contanto", contact == null);
+	}
+
+	private Contact executeGetContact(Long contactId) throws IOException {
 		Mockito.when(this.request.getParameter(ContactServlet.ACTION)).thenReturn(ContactServlet.ACTION_GET_CONTACT);
-		Mockito.when(this.request.getParameter(ContactServlet.ID)).thenReturn(contact.getId().toString());
+		Mockito.when(this.request.getParameter(ContactServlet.ID)).thenReturn(contactId.toString());
 		StringWriter outGet = new StringWriter();
 		Mockito.when(this.response.getWriter()).thenReturn(new PrintWriter(outGet, true));
 		ContactServlet contactServlet = new ContactServlet();
 		contactServlet.doGet(this.request, this.response);
 		Contact contactGet = (Contact) JsonParse.convertJsonToObject(outGet.toString(), Contact.class);
-		Assert.assertTrue("Deveria ter retornado um contato", Objects.nonNull(contactGet));
+		return contactGet;
 	}
 
 	private StringWriter createContactPost() throws IOException {

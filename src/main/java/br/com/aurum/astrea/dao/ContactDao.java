@@ -27,7 +27,7 @@ public class ContactDao extends AbstractDao<Contact> {
 	}
 
 	public Contact getContactById(Long contactId) {
-		if (Objects.isNull(contactId) || Objects.equals(contactId, NumberUtils.LONG_ZERO)) {
+		if (contactId == null || Objects.equals(contactId, NumberUtils.LONG_ZERO)) {
 			return null;
 		}
 		return this.getEntityById(contactId);
@@ -38,7 +38,7 @@ public class ContactDao extends AbstractDao<Contact> {
 	}
 
 	public void delete(Long contactId) {
-		if (Objects.isNull(contactId) || Objects.equals(contactId, NumberUtils.LONG_ZERO)) {
+		if (contactId == null || Objects.equals(contactId, NumberUtils.LONG_ZERO)) {
 			return;
 		}
 		this.deleteEntityById(contactId);
@@ -54,7 +54,7 @@ public class ContactDao extends AbstractDao<Contact> {
 			query = query.filter("name >= ", name).filter("name <", name + "\uFFFD");
 		}
 		if (StringUtils.isNotEmpty(cpf)) {
-			query = query.filter("cpf", cpf);
+			query = query.filter("cpg >= ", cpf).filter("cpf <", cpf + "\uFFFD");
 		}
 		if (StringUtils.isNotEmpty(email)) {
 			query = query.filter("emails in", Arrays.asList(email));

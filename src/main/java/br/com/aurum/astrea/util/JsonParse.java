@@ -1,7 +1,6 @@
 package br.com.aurum.astrea.util;
 
 import java.lang.reflect.Type;
-import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,7 +23,7 @@ public class JsonParse {
 	}
 
 	public static String ObjectToJson(Object object) {
-		if (Objects.isNull(object)) {
+		if (object == null) {
 			return null;
 		}
 		return new Gson().toJson(object);
