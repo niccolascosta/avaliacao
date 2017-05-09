@@ -29,7 +29,8 @@
             <td>{{c.emails[0]}}</td>
             <td>{{c.phones[0]}}</td>
             <td>{{bday(c)}}</td>
-            <td> <i class="fa fa-trash-o icon-box" ng-click="preDelete(c)"></i> <td>    
+            <td><i class="fa fa-trash-o icon-box" ng-click="preDelete(c)"></i></td>    
+            <td><i class="fa fa-pencil-square-o icon-box" ui-sref="main.addeditcontact.edit({contactId: c.id})"></i></td>
           </tr>
 
         </tbody>
