@@ -83,11 +83,11 @@ public class ContactServletTest extends Mockito {
 	@Test
 	public void getContactServletTest() throws Exception {
 		StringWriter out = this.createContactPost();
-		JsonParse.convertJsonToObject(out.toString(), Contact.class);
+		Contact contact = (Contact) JsonParse.convertJsonToObject(out.toString(), Contact.class);
 		this.request = Mockito.mock(HttpServletRequest.class);
 		this.response = Mockito.mock(HttpServletResponse.class);
 		Mockito.when(this.request.getParameter(ContactServlet.ACTION)).thenReturn(ContactServlet.ACTION_GET_CONTACT);
-		Mockito.when(this.request.getParameter(ContactServlet.ID)).thenReturn(null);
+		Mockito.when(this.request.getParameter(ContactServlet.ID)).thenReturn(contact.getId().toString());
 		StringWriter outGet = new StringWriter();
 		Mockito.when(this.response.getWriter()).thenReturn(new PrintWriter(outGet, true));
 		ContactServlet contactServlet = new ContactServlet();
