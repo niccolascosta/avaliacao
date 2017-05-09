@@ -37,16 +37,12 @@ public class ContactServlet extends HttpServlet {
 		if (contact == null) {
 			return;
 		}
-		Long idContact = ContactServlet.DAO.save(contact);
-		if (contact == null) {
-			contact.setId(idContact);
-		}
+		ContactServlet.DAO.save(contact);
 		this.setResponseData(resp, contact);
 	}
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		System.out.println(req.getParameterMap());
 		this.setResponseData(resp, this.executeAction(req));
 	}
 

@@ -54,7 +54,7 @@ public class ContactDao extends AbstractDao<Contact> {
 			query = query.filter("name >= ", name).filter("name <", name + "\uFFFD");
 		}
 		if (StringUtils.isNotEmpty(cpf)) {
-			query = query.filter("cpg >= ", cpf).filter("cpf <", cpf + "\uFFFD");
+			query = query.filter("cpf >= ", cpf).filter("cpf <", cpf + "\uFFFD");
 		}
 		if (StringUtils.isNotEmpty(email)) {
 			query = query.filter("emails in", Arrays.asList(email));

@@ -109,8 +109,7 @@ public class ContactDaoTest {
 	public void jsonToObject() {
 		Contact contact = this.createContact();
 		Gson gson = new Gson();
-		String json = gson.toJson(contact);
-		System.out.println(json);
+		gson.toJson(contact);
 	}
 
 	private Long saveContact() {
