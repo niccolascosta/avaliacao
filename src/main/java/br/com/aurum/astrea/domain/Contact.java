@@ -32,7 +32,7 @@ public class Contact {
 	private String observation;
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -40,7 +40,7 @@ public class Contact {
 	}
 
 	public String getBirthDay() {
-		return birthDay;
+		return this.birthDay;
 	}
 
 	public void setBirthDay(String birthDay) {
@@ -48,7 +48,7 @@ public class Contact {
 	}
 
 	public String getBirthMonth() {
-		return birthMonth;
+		return this.birthMonth;
 	}
 
 	public void setBirthMonth(String birthMonth) {
@@ -56,7 +56,7 @@ public class Contact {
 	}
 
 	public String getBirthYear() {
-		return birthYear;
+		return this.birthYear;
 	}
 
 	public void setBirthYear(String birthYear) {
@@ -64,7 +64,7 @@ public class Contact {
 	}
 
 	public String getCpf() {
-		return cpf;
+		return this.cpf;
 	}
 
 	public void setCpf(String cpf) {
@@ -72,7 +72,7 @@ public class Contact {
 	}
 
 	public String getRg() {
-		return rg;
+		return this.rg;
 	}
 
 	public void setRg(String rg) {
@@ -80,7 +80,7 @@ public class Contact {
 	}
 
 	public List<String> getPhones() {
-		return phones;
+		return this.phones;
 	}
 
 	public void setPhones(List<String> phones) {
@@ -88,7 +88,7 @@ public class Contact {
 	}
 
 	public List<String> getEmails() {
-		return emails;
+		return this.emails;
 	}
 
 	public void setEmails(List<String> emails) {
@@ -96,7 +96,7 @@ public class Contact {
 	}
 
 	public String getAddress() {
-		return address;
+		return this.address;
 	}
 
 	public void setAddress(String addresses) {
@@ -104,7 +104,7 @@ public class Contact {
 	}
 
 	public String getObservation() {
-		return observation;
+		return this.observation;
 	}
 
 	public void setObservation(String observation) {
@@ -112,6 +112,11 @@ public class Contact {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

@@ -1,6 +1,7 @@
 package br.com.aurum.astrea.dao;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -25,97 +26,97 @@ public class ContactDaoTest {
 
 	@BeforeClass
 	public static void beforeClass() {
-		helper.setUp();
+		ContactDaoTest.helper.setUp();
 	}
 
 	@AfterClass
-	public static void tearDown() {
-		helper.tearDown();
+	public static void afterClass() {
+		ContactDaoTest.helper.tearDown();
 	}
 
 	@Test
 	public void saveContactTest() {
-		Long generetedCode = saveContact();
+		Long generetedCode = this.saveContact();
 		Assert.assertNotNull("Deveria ter gerado um código", generetedCode);
 	}
 
 	@Test
 	public void editContactTest() {
-		Long generetedCode = saveContact();
-		Contact contact = dao.getContactById(generetedCode);
+		Long generetedCode = this.saveContact();
+		Contact contact = this.dao.getContactById(generetedCode);
 		contact.setName("Niccael");
-		dao.save(contact);
-		contact = dao.getContactById(generetedCode);
+		this.dao.save(contact);
+		contact = this.dao.getContactById(generetedCode);
 		Assert.assertEquals("Deveria ter alterado o nome", "Niccael", contact.getName());
 	}
-	
+
 	@Test
-	public void deleteContactTest(){
-		Long generetedCode = saveContact();
-		dao.delete(generetedCode);
-		Contact contact = dao.getContactById(generetedCode);
-		Assert.assertNull("Deveria ter apagado o contact", contact);
+	public void deleteContactTest() {
+		Long generetedCode = this.saveContact();
+		this.dao.delete(generetedCode);
+		Contact contact = this.dao.getContactById(generetedCode);
+		Assert.assertNull("Deveria ter apagado o contato", contact);
 	}
-	
+
 	@Test
-	public void listContactsTest(){
-		saveContact();
-		saveContact();
-		List<Contact> contacts = dao.list();
-		Assert.assertTrue("Deveria conter pelo menos dois contacts", contacts != null && contacts.size() >= 2);
+	public void listContactsTest() {
+		this.saveContact();
+		this.saveContact();
+		List<Contact> contacts = this.dao.list();
+		Assert.assertTrue("Deveria conter pelo menos dois contatos", Objects.nonNull(contacts) && contacts.size() >= 2);
 	}
-	
+
 	@Test
-	public void listContactsByFilterNameTest(){
-		Contact contact = createContact();
-		Contact contact2 = createContact();
+	public void listContactsByFilterNameTest() {
+		Contact contact = this.createContact();
+		Contact contact2 = this.createContact();
 		contact2.setName("Lucas");
-		dao.save(contact);
-		dao.save(contact2);
+		this.dao.save(contact);
+		this.dao.save(contact2);
 		ContactFilter contactFilter = new ContactFilter();
 		contactFilter.setName("Niccolas");
-		List<Contact> contacts = dao.listByFilter(contactFilter);
-		Assert.assertTrue("Deveria conter um contact", contacts != null && contacts.size() >= 1);
+		List<Contact> contacts = this.dao.listByFilter(contactFilter);
+		Assert.assertTrue("Deveria conter um contato", Objects.nonNull(contacts) && contacts.size() >= 1);
 	}
-	
+
 	@Test
-	public void listContactsByFilterCpfTest(){
-		Contact contact = createContact();
-		Contact contact2 = createContact();
+	public void listContactsByFilterCpfTest() {
+		Contact contact = this.createContact();
+		Contact contact2 = this.createContact();
 		contact2.setCpf("063.461.999-33");
-		dao.save(contact);
-		dao.save(contact2);
+		this.dao.save(contact);
+		this.dao.save(contact2);
 		ContactFilter contactFilter = new ContactFilter();
 		contactFilter.setCpf(contact.getCpf());
-		List<Contact> contacts = dao.listByFilter(contactFilter);
-		Assert.assertTrue("Deveria conter um contact", contacts != null && contacts.size() >= 1);
+		List<Contact> contacts = this.dao.listByFilter(contactFilter);
+		Assert.assertTrue("Deveria conter um contato", Objects.nonNull(contacts) && contacts.size() >= 1);
 	}
-	
+
 	@Test
-	public void listContactsByFilterEmailTest(){
-		Contact contact = createContact();
-		Contact contact2 = createContact();
+	public void listContactsByFilterEmailTest() {
+		Contact contact = this.createContact();
+		Contact contact2 = this.createContact();
 		contact2.getEmails().clear();
 		contact2.getEmails().add("niccolas@gmail.com");
-		dao.save(contact);
-		dao.save(contact2);
+		this.dao.save(contact);
+		this.dao.save(contact2);
 		ContactFilter contactFilter = new ContactFilter();
 		contactFilter.setEmail("niccolas.costa@gmail.com");
-		List<Contact> contacts = dao.listByFilter(contactFilter);
-		Assert.assertTrue("Deveria conter um contact", contacts != null && contacts.size() >= 1);
+		List<Contact> contacts = this.dao.listByFilter(contactFilter);
+		Assert.assertTrue("Deveria conter um contato", Objects.nonNull(contacts) && contacts.size() >= 1);
 	}
 
 	@Test
 	public void jsonToObject() {
-		Contact contact = createContact();
+		Contact contact = this.createContact();
 		Gson gson = new Gson();
 		String json = gson.toJson(contact);
 		System.out.println(json);
 	}
 
 	private Long saveContact() {
-		Contact contact = createContact();
-		Long generetedCode = dao.save(contact);
+		Contact contact = this.createContact();
+		Long generetedCode = this.dao.save(contact);
 		return generetedCode;
 	}
 

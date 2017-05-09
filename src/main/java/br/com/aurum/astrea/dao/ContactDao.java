@@ -1,11 +1,11 @@
 package br.com.aurum.astrea.dao;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
@@ -16,41 +16,47 @@ import br.com.aurum.astrea.domain.Contact;
 import br.com.aurum.astrea.filter.ContactFilter;
 
 public class ContactDao extends AbstractDao<Contact> {
-	
+
 	static {
 		ObjectifyService.register(Contact.class);
 	}
-	
+
 	public Long save(Contact contact) {
-		Key<Contact> persistContact = persist(contact);
+		Key<Contact> persistContact = this.persist(contact);
 		return persistContact.getId();
 	}
-	
-	public Contact getContactById(Long idContact){
-		return getEntityById(idContact);
+
+	public Contact getContactById(Long contactId) {
+		if (Objects.isNull(contactId) || Objects.equals(contactId, NumberUtils.LONG_ZERO)) {
+			return null;
+		}
+		return this.getEntityById(contactId);
 	}
 
 	public List<Contact> list() {
-		return listEntities(); 
+		return this.listEntities();
 	}
-	
+
 	public void delete(Long contactId) {
-		deleteEntityById(contactId);
+		if (Objects.isNull(contactId) || Objects.equals(contactId, NumberUtils.LONG_ZERO)) {
+			return;
+		}
+		this.deleteEntityById(contactId);
 	}
-	
-	public List<Contact> listByFilter(ContactFilter contactFilter){
+
+	public List<Contact> listByFilter(ContactFilter contactFilter) {
 		LoadType<Contact> loadType = ObjectifyService.ofy().load().type(Contact.class);
 		String name = contactFilter.getName();
 		String cpf = contactFilter.getCpf();
 		String email = contactFilter.getEmail();
 		Query<Contact> query = loadType.chunkAll();
-		if(StringUtils.isNotEmpty(name)){
+		if (StringUtils.isNotEmpty(name)) {
 			query = query.filter("name >= ", name).filter("name <", name + "\uFFFD");
 		}
-		if(StringUtils.isNotEmpty(cpf)){
-			query = query.filter("cpf", cpf );
+		if (StringUtils.isNotEmpty(cpf)) {
+			query = query.filter("cpf", cpf);
 		}
-		if(StringUtils.isNotEmpty(email)){
+		if (StringUtils.isNotEmpty(email)) {
 			query = query.filter("emails in", Arrays.asList(email));
 		}
 		return query.list();
