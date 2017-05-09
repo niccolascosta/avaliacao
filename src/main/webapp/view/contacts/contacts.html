@@ -8,6 +8,30 @@
        		<button name="singlebutton" class="btn btn-primary" ui-sref="main.addeditcontact">Adicionar</button>
       </div>
     </div>
+    
+    <div class="grid">
+    	<div class="row">
+    		<div class="form-group col-xs-2 col-md-2">
+    			<div for="name" class="control-label">Nome</div>
+    			<input type="text" class="form-control" id="name"
+				 ng-model="contactFilter.name">
+    		</div>
+    		<div class="form-group col-xs-2 col-md-2">
+    			<div for="email" class="control-label">E-mail</div>
+    			<input type="text" class="form-control" id="email"
+				 ng-model="contactFilter.email">
+    		</div>
+    		<div class="form-group col-xs-2 col-md-2">
+    			<div for="cpf" class="control-label">CPF</div>
+    			<input type="text" class="form-control" id="cpf"
+				 ng-model="contactFilter.cpf">
+    		</div>
+    		<div class="form-group col-xs-2 col-md-2">
+    			<div for="buscar" class="control-label"></div>
+	            <button class="btn btn-primary" ng-click="listAllContacts()">Buscar</button>
+	        </div>
+    	</div>
+    </div>
 
     <div class="table-responsive">
 
